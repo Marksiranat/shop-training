@@ -14,6 +14,11 @@ const router = createRouter({
       name: "productview",
       component: () => import("@/views/ProductView.vue"),
     },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/LoginView.vue"),
+    },
 
     {
       path: "/",
@@ -24,6 +29,12 @@ const router = createRouter({
           path: "home",
           name: "home",
           component: () => import("@/views/HomeView.vue"),
+          meta: { requiresAuth: false },
+        },
+          {
+          path: "cart",
+          name: "cart",
+          component: () => import("@/views/CartView.vue"),
           meta: { requiresAuth: false },
         },
       ],
