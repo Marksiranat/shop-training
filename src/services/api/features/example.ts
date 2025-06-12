@@ -70,4 +70,14 @@ export default {
       handleApiError(err, 'delete')
     }
   },
+  async login<TBody, TRes>(body: TBody): Promise<TRes> {
+  try {
+    const response = await instance.post<TRes>('https://fakestoreapi.com/auth/login', body)
+    return response.data
+  } catch (err) {
+    handleApiError(err, 'login')
+    throw err // เพื่อให้ caller รู้ว่าผิดพลาด
+  }
+}
+
 }
