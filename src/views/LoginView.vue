@@ -22,9 +22,10 @@
             <p class="text-subtitle-2">ยินดีต้อนรับสู่เว็บไซต์ Product Shop</p>
           </div>
 
-          <v-form>
+          <v-form @submit.prevent="handleLogin">
             <v-text-field
               label="อีเมล :"
+              v-model="email"
               placeholder="example@mail.com"
               type="email"
               variant="outlined"
@@ -33,14 +34,16 @@
             />
             <v-text-field
               label="รหัสผ่าน :"
+              v-model="password"
               placeholder="password"
               type="password"
               variant="outlined"
               density="comfortable"
               class="mb-3"
             />
-
-            <v-btn block color="indigo-lighten-1" class="mt-2">เข้าสู่ระบบ</v-btn>
+            <v-btn block color="indigo-lighten-1" class="mt-2" @click="handleLogin">
+              เข้าสู่ระบบ
+            </v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -49,7 +52,23 @@
 </template>
 
 <script setup lang="ts">
-// login logic
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "../plugins/stores/auth";
+
+const email = ref("");
+const password = ref("");
+const router = useRouter();
+const auth = useAuthStore();
+
+const handleLogin = () => {
+  if (email.value === "admin" && password.value === "12345") {
+    auth.setup("mock-token-xyz"); // บันทึก token ลง store
+    router.push({ name: "home" }); // ไปหน้า Home
+  } else {
+    alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+  }
+};
 </script>
 
 <style scoped>
