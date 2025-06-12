@@ -3,6 +3,7 @@ import axios, { type AxiosInstance, type InternalAxiosRequestConfig, type AxiosE
 
 const createInstance = (domain: string): AxiosInstance => {
   const instance: AxiosInstance = axios.create({
+      
     baseURL:`${domain}`,
     headers: {
       'Content-Type': 'application/json',
