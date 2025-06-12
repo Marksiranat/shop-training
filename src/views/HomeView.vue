@@ -1,38 +1,43 @@
 <template>
-  <v-card class="ma-auto" width="900">
-    <v-row>
-      <v-col cols="12" md="6">
-        <div class="test text-h1">Variable</div>
-      </v-col>
-      <v-col cols="12" md="6"><div class="test-mixin text-h1">test-mixin</div></v-col>
-    </v-row>
-  </v-card>
-  <br />
-  <v-card
-    class="mx-auto"
-    prepend-icon="$vuetify"
-    subtitle="The #1 Vue UI Library"
-    width="400"
-  >
-    <template v-slot:title>
-      <span class="font-weight-black">Welcome to Vuetify</span>
-    </template>
+  <v-container fluid>
+    <v-carousel>
+      <v-carousel-item
+        v-for="(item, i) in carousels"
+        :key="i"
+        :src="item.src"
+        cover
+      ></v-carousel-item>
+    </v-carousel>
 
-    <v-card-text class="bg-surface-light pt-4">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis
-      quis est labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni
-      doloremque veniam neque porro libero rerum unde voluptatem!
-    </v-card-text>
-  </v-card>
+    <h2 class="my-4 text-h5">สินค้าแนะนำ</h2>
+
+    <ProductsCards :products="products" />
+  </v-container>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ProductsCards from "@/components/BoxCards/ProductsCards.vue";
+import { ref, onMounted } from "vue";
+import productApi from "@/services/api/features/example";
+import { type Product } from '@/models/product';
 
-<style lang="scss" scoped>
-.test {
-  background-color: $error;
+const products = ref<Product[]>([]);
+const carousels = ref([
+  { id: 1, src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" },
+  { id: 2, src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg" },
+  { id: 3, src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg" },
+]);
+
+async function getAllProduct() {
+  try {
+    const response = await productApi.getAll<Product[]>();
+    products.value = response;
+  } catch (error) {
+    console.error('error', error);
+  }
 }
-.test-mixin {
-  @include gradient($primary, $error);
-}
-</style>
+
+onMounted(() => {
+  getAllProduct();
+});
+</script>

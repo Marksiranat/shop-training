@@ -1,6 +1,6 @@
 <template>
     <div>
-        55555555555
+        ProductView
     </div>
 </template>
 
