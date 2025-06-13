@@ -17,7 +17,7 @@
     <v-footer
       class="text-center d-flex flex-column ga-1 py-2"
       color="indigo-lighten-3"
-      height="20px"
+      height="60px"
     >
       <div class="d-flex ga-2">
         <v-btn

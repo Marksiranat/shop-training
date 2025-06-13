@@ -1,40 +1,80 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col cols="12" md="8">
-        <v-card v-if="product">
-          <v-img
-            :src="product.image"
-            height="300px"
-            cover
-          ></v-img>
-       
-  
-          <v-card-title class="text-h5">
-            {{ product.title }}
-          </v-card-title>
+      <v-col cols="12" md="10" lg="10">
+        <v-card v-if="product" class="pa-4">
+          <v-row>
+            <!-- รูปภาพด้านซ้าย -->
+            <v-col cols="12" md="6">
+              <v-img :src="product.image" height="400px" cover class="rounded-lg" />
+            </v-col>
 
-          <v-card-subtitle class="text-subtitle-1">
-            ราคา: ฿{{ product.price.toLocaleString() }}
-          </v-card-subtitle>
+            <!-- ข้อมูลสินค้าด้านขวา -->
+            <v-col cols="12" md="6">
+              <!-- ชื่อสินค้า -->
+              <div class="text-h5 font-weight-bold mb-3">{{ product.title }}</div>
 
-          <v-card-text>
-            {{ product.description }}
-          </v-card-text>
-          <v-card-text>
-            {{ product.category }}
-          </v-card-text>
+              <!-- ราคา -->
+              <div class="text-h4 text-blue font-weight-bold mb-4">
+                ฿{{ product.price.toLocaleString() }}
+              </div>
 
-          <v-card-actions>
-            <v-btn color="primary" @click="addToCart(product)">
-              เพิ่มสินค้าลงตะกร้า
-            </v-btn>
-          </v-card-actions>
+              <!-- หมวดหมู่ -->
+              <v-chip color="indigo" text-color="white" class="mb-4">
+                {{ product.category }}
+              </v-chip>
+
+              <!-- จำนวนสินค้า -->
+              <div class="mb-4">
+                <div class="text-subtitle-1 font-weight-medium mb-2">จำนวน</div>
+                <div class="d-flex align-center" style="width: fit-content">
+                  <v-btn
+                    icon="mdi-minus"
+                    size="small"
+                    variant="outlined"
+                    @click="decreaseQuantity"
+                    :disabled="quantity <= 1"
+                  />
+                  <div
+                    class="mx-4 text-h6 font-weight-medium"
+                    style="min-width: 40px; text-align: center"
+                  >
+                    {{ quantity }}
+                  </div>
+                  <v-btn
+                    icon="mdi-plus"
+                    size="small"
+                    variant="outlined"
+                    @click="increaseQuantity"
+                  />
+                </div>
+              </div>
+
+              <!-- ปุ่มเพิ่มตะกร้า -->
+              <v-btn
+                color="primary"
+                size="large"
+                class="mb-4"
+                style="width: 250px"
+                @click="addToCart(product)"
+              >
+                เพิ่มสินค้าลงตะกร้า
+              </v-btn>
+
+              <!-- รายละเอียดสินค้า -->
+              <v-card class="pa-4" variant="outlined">
+                <div class="text-subtitle-1 font-weight-medium mb-2">
+                  รายละเอียดสินค้า
+                </div>
+                <div class="text-body-2" style="white-space: pre-line">
+                  {{ product.description }}
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-card>
 
-        <v-alert v-else type="info">
-          กำลังโหลดข้อมูลสินค้า...
-        </v-alert>
+        <v-alert v-else type="info">กำลังโหลดข้อมูลสินค้า...</v-alert>
       </v-col>
     </v-row>
   </v-container>
@@ -48,6 +88,7 @@ import { type Product } from '@/models/product'
 
 const route = useRoute()
 const product = ref<Product | null>(null)
+const quantity = ref<number>(1)
 
 async function getProductById(id: number) {
   try {
@@ -58,9 +99,18 @@ async function getProductById(id: number) {
   }
 }
 
+function increaseQuantity() {
+  quantity.value++
+}
+
+function decreaseQuantity() {
+  if (quantity.value > 1) {
+    quantity.value--
+  }
+}
+
 function addToCart(product: Product) {
-  console.log('เพิ่มสินค้าลงตะกร้า:', product)
-  // ที่นี่คุณสามารถเพิ่ม logic Vuex หรือ LocalStorage ได้
+  console.log('เพิ่มสินค้าลงตะกร้า:', product, 'จำนวน:', quantity.value)
 }
 
 onMounted(() => {

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container >
     <v-carousel>
       <v-carousel-item
         v-for="(item, i) in carousels"
