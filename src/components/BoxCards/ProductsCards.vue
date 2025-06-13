@@ -3,7 +3,7 @@
     <template v-if="mode === 'product'">
     <v-row dense>
     <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
-      <v-card class="mx-auto" max-width="450" hover @click="goToDetail(product.id)">
+      <v-card class="mx-auto" max-width="400" hover @click="goToDetail(product.id)">
         <v-img :src="product.image" height="200px" cover></v-img>
 
         <v-card-title class="text-h6">{{ product.title }}</v-card-title>

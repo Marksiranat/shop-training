@@ -9,7 +9,7 @@
       ></v-carousel-item>
     </v-carousel>
 
-    <h2 class="my-4 text-h3 text-ml-h5">สินค้าแนะนำ</h2>
+    <div class="my-4 text-h2 text-sm-h4 text-xs-h5"><v-icon>mdi mdi-alphabet-piqad</v-icon>M&P Style</div>
 
     <ProductsCards :products="products" mode="product" />
   </v-container>
