@@ -75,6 +75,10 @@
         </v-card>
 
         <v-alert v-else type="info">กำลังโหลดข้อมูลสินค้า...</v-alert>
+
+          <v-snackbar v-model="snackbar" timeout="2000" color="green">
+          เพิ่ม "{{ product?.title }}" จำนวน {{ quantity }} ชิ้น ลงตะกร้าแล้ว
+        </v-snackbar>
       </v-col>
     </v-row>
   </v-container>
@@ -84,7 +88,12 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import productApi from '@/services/api/features/example'
-import { type Product } from '@/models/product'
+import { type Product } from '@/models/product' 
+import { useCartStore } from '@/plugins/stores/cartStore'
+
+const cart = useCartStore()
+const snackbar = ref(false)
+
 
 const route = useRoute()
 const product = ref<Product | null>(null)
@@ -111,6 +120,8 @@ function decreaseQuantity() {
 
 function addToCart(product: Product) {
   console.log('เพิ่มสินค้าลงตะกร้า:', product, 'จำนวน:', quantity.value)
+  cart.addToCart(product, quantity.value)
+  snackbar.value = true
 }
 
 onMounted(() => {

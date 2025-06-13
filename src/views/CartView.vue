@@ -1,45 +1,3 @@
-<template>
-  <v-container fluid class="pa-4">
-    <h2 class="mb-6 font-weight-bold text-center">ตะกร้าสินค้า</h2>
-
-    <!-- ✅ ใช้ Card UI จาก component -->
-    <ProductCardList :products="cart.cartItems" mode="cart" />
-
-    <!-- ✅ สรุปราคา -->
-    <v-row class="mt-10">
-      <v-col cols="12">
-        <v-card class="pa-4 elevation-2">
-          <h4 class="font-weight-bold text-center">สรุปราคา</h4>
-          <v-row class="mt-4">
-            <v-col cols="6" class="text-start">
-              <strong>ค่าสินค้า :</strong>
-            </v-col>
-            <v-col cols="6" class="text-end">
-              {{ totalAmount.toFixed(2) }} บาท
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="6" class="text-start">
-              <strong>ค่าจัดส่ง :</strong>
-            </v-col>
-            <v-col cols="6" class="text-end">
-              {{ shipping.toFixed(2) }} บาท
-            </v-col>
-          </v-row>
-          <v-row class="mt-2">
-            <v-col cols="6" class="text-start text-h5 font-weight-bold text-primary">
-              <strong>ยอดรวม :</strong>
-            </v-col>
-            <v-col cols="6" class="text-end text-h5 font-weight-bold text-primary">
-              {{ (totalAmount + shipping).toFixed(2) }} บาท
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useCartStore } from '@/plugins/stores/cartStore'
@@ -49,7 +7,45 @@ const cart = useCartStore()
 
 const shipping = 100
 
+// ✅ แปลง cartItems เพื่อส่งให้ ProductCardList ใช้ใน mode 'cart'
+const cartList = computed(() =>
+  cart.cartItems.map(item => ({
+    ...item.product,
+    quantity: item.quantity,
+  }))
+)
+
+// ✅ รวมราคาสินค้าทั้งหมด
 const totalAmount = computed(() =>
-  cart.cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+  cart.cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0),
 )
 </script>
+
+<template>
+  <v-container fluid class="pa-4">
+    <h2 class="mb-6 font-weight-bold text-start">ตะกร้าสินค้า</h2>
+
+    <!-- ✅ แสดงสินค้าในตะกร้า -->
+    <ProductCardList :products="cartList" mode="cart" />
+
+    <!-- ✅ สรุปราคา -->
+    <v-row justify="end" class="mt-6">
+      <v-col cols="12" md="4">
+        <v-card class="pa-4" variant="outlined">
+          <div class="d-flex justify-space-between mb-2">
+            <span>ยอดรวมสินค้า</span>
+            <strong>฿{{ totalAmount.toLocaleString() }}</strong>
+          </div>
+          <div class="d-flex justify-space-between mb-2">
+            <span>ค่าจัดส่ง</span>
+            <strong>฿{{ shipping }}</strong>
+          </div>
+          <div class="d-flex justify-space-between mt-4 text-h6 font-weight-bold">
+            <span>รวมทั้งสิ้น</span>
+            <span>฿{{ (totalAmount + shipping).toLocaleString() }}</span>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>

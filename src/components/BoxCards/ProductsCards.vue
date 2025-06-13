@@ -40,7 +40,8 @@
             <td>{{ index + 1 }}</td>
             <td><v-img :src="item.image" width="50" height="50" cover /></td>
             <td>{{ item.title }}</td>
-            <td class="text-end">฿{{ item.price.toFixed(2) }}</td>
+            <td class="text-end">{{ item.price?.toFixed(2) ?? '0.00' }}
+</td>
             <td class="text-center">{{ item.quantity ?? 1 }}</td>
             <td class="text-end">฿{{ (item.price * (item.quantity ?? 1)).toFixed(2) }}</td>
           </tr>

@@ -1,27 +1,25 @@
-import {defineStore} from 'pinia'
-import {ref} from 'vue'
-import type { Product } from '@/models/product'
+// /plugins/stores/cartStore.ts
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import { type Product } from '@/models/product'
 
-export const useCartStore = defineStore('cart', ()=> {
-    const cartItems = ref<(Product & {quantity: number})[]>([])
+export const useCartStore = defineStore('cart', () => {
+  const cartItems = ref<{ product: Product; quantity: number }[]>([])
 
-    function addToCart(product: Product){
-        const existingItem = cartItems.value.find((item)=> item.id === product.id)
-        if(existingItem){
-            existingItem.quantity++
-        } else {
-            cartItems.value.push({...product , quantity:1})
-        }
+  function addToCart(product: Product, quantity: number) {
+    const existing = cartItems.value.find(item => item.product.id === product.id)
+    if (existing) {
+      existing.quantity += quantity
+    } else {
+      cartItems.value.push({ product, quantity })
     }
-
-
-    function removeFromCart(id: number){
-        cartItems.value = cartItems.value.filter(item => item.id !== id)
-    }
-
-     return {
-    cartItems,
-    addToCart,
-    removeFromCart,
   }
+
+  function removeFromCart(productId: number) {
+    cartItems.value = cartItems.value.filter(item => item.product.id !== productId)
+  }
+
+  return { cartItems, addToCart, removeFromCart }
+}, {
+  persist: true  // ✅ เก็บข้อมูลตะกร้าไว้ใน localStorage ด้วย
 })
