@@ -22,25 +22,27 @@
             <p class="text-subtitle-2">ยินดีต้อนรับสู่เว็บไซต์ Product Shop</p>
           </div>
 
-          <v-form>
+          <v-form @submit.prevent="handleLogin">
             <v-text-field
-              label="อีเมล :"
-              placeholder="example@mail.com"
-              type="email"
+              v-model="username"
+              label="ชื่อผู้ใช้"
+              placeholder="username"
               variant="outlined"
               density="comfortable"
               class="mb-3"
             />
             <v-text-field
-              label="รหัสผ่าน :"
+              v-model="password"
+              label="รหัสผ่าน"
               placeholder="password"
               type="password"
               variant="outlined"
               density="comfortable"
               class="mb-3"
             />
-
-            <v-btn block color="indigo-lighten-1" class="mt-2">เข้าสู่ระบบ</v-btn>
+            <v-btn :loading="isLoading" block color="indigo-lighten-1" class="mt-2" @click="handleLogin">
+              เข้าสู่ระบบ
+            </v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -49,7 +51,37 @@
 </template>
 
 <script setup lang="ts">
-// login logic
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "../plugins/stores/auth";
+import exampleApi from "../services/api/features/example";
+
+const router = useRouter();
+const auth = useAuthStore();
+
+const username = ref("");
+const password = ref("");
+const isLoading = ref(false);
+
+const handleLogin = async () => {
+  isLoading.value = true;
+  try {
+    const res = await exampleApi.login<{ username: string; password: string }, { token: string }>({
+      username: username.value,
+      password: password.value,
+    });
+
+    if (res.token) {
+      auth.setup(res.token); // บันทึก token ใน store
+      router.push({ name: "home" });
+    }
+  } catch (err) {
+    alert("เข้าสู่ระบบไม่สำเร็จ");
+    console.log(err)
+  } finally {
+    isLoading.value = false;
+  }
+};
 </script>
 
 <style scoped>
