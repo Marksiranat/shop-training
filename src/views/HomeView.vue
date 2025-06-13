@@ -11,7 +11,7 @@
 
     <h2 class="my-4 text-h3 text-ml-h5">สินค้าแนะนำ</h2>
 
-    <ProductsCards :products="products" />
+    <ProductsCards :products="products" mode="product" />
   </v-container>
 </template>
 

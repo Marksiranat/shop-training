@@ -5,7 +5,7 @@
 
       <v-spacer />
 
-      <v-btn icon>
+      <v-btn icon to="/cart">
         <v-icon>mdi-cart</v-icon>
       </v-btn>
     </v-toolbar>
