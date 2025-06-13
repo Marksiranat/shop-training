@@ -52,7 +52,7 @@
 
               <!-- ปุ่มเพิ่มตะกร้า -->
               <v-btn
-                color="primary"
+                color="indigo-lighten-1"
                 size="large"
                 class="mb-4"
                 style="width: 250px"
