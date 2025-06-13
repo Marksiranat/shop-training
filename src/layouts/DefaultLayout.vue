@@ -1,16 +1,16 @@
 <template>
   <v-app>
     <v-toolbar height="80" color="indigo-lighten-1" dark>
-      <v-toolbar-title class="text-h4" ><v-icon>mdi mdi-alphabet-piqad</v-icon>M&P</v-toolbar-title>
+      <v-toolbar-title class="text-h4" ><v-icon >mdi mdi-alphabet-piqad</v-icon>M&P</v-toolbar-title>
 
       <v-spacer />
 
-      <v-btn icon to="/cart">
-        <v-icon>mdi-cart</v-icon>
+      <v-btn icon to="/cart" width="100px">
+        <v-icon style="font-size: 40px;">mdi-cart</v-icon>
       </v-btn>
     </v-toolbar>
 
-    <v-main>
+    <v-main style="background-color:#F9F9F9">
       <router-view />
     </v-main>
 
