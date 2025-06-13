@@ -5,20 +5,27 @@
       :key="i"
       :src="item.src"
       cover
-    ></v-carousel-item>
+    />
   </v-carousel>
-  <v-container>
-    <div class="my-4 text-h2 text-sm-h4 text-xs-h5">
-      <v-icon>mdi mdi-alphabet-piqad</v-icon>M&P Style
-    </div>
 
-    <ProductsCards :products="products" mode="product" />
+  <v-container>
+    <template v-for="(category, index) in categories" :key="category.key">
+      <div v-if="category.products.length">
+        <div class="my-6 text-h4 text-indigo-darken-2 font-weight-bold">
+          {{ category.label }}
+        </div>
+
+        <ProductsCards :products="category.products" mode="product" />
+
+        <v-divider class="my-6" v-if="index < categories.length - 1"></v-divider>
+      </div>
+    </template>
   </v-container>
 </template>
 
 <script setup lang="ts">
 import ProductsCards from "@/components/BoxCards/ProductsCards.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import productApi from "@/services/api/features/example";
 import { type Product } from '@/models/product';
 
@@ -29,16 +36,42 @@ const carousels = ref([
   { id: 3, src: "https://media.gq-magazine.co.uk/photos/65706fb67fdc3c767a9a571f/16:9/w_2240,c_limit/Sneaker_NEW.jpg" },
 ]);
 
-async function getAllProduct() {
+const getAllProduct = async () => {
   try {
     const response = await productApi.getAll<Product[]>();
     products.value = response;
   } catch (error) {
-    console.error('error', error);
+    console.error("Error fetching products:", error);
   }
-}
+};
 
 onMounted(() => {
   getAllProduct();
+});
+
+// แยกหมวดหมู่สินค้า
+const categories = computed(() => {
+  return [
+    {
+      key: "men's clothing",
+      label: "Men's Clothing",
+      products: products.value.filter(p => p.category === "men's clothing")
+    },
+    {
+      key: "women's clothing",
+      label: "Women's Clothing",
+      products: products.value.filter(p => p.category === "women's clothing")
+    },
+    {
+      key: "jewelery",
+      label: "Jewelery",
+      products: products.value.filter(p => p.category === "jewelery")
+    },
+    {
+      key: "electronics",
+      label: "Electronics",
+      products: products.value.filter(p => p.category === "electronics")
+    }
+  ];
 });
 </script>
