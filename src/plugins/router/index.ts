@@ -35,7 +35,7 @@ const router = createRouter({
           path: "home",
           name: "home",
           component: () => import("@/views/HomeView.vue"),
-          meta: { requiresAuth: false },
+          meta: { requiresAuth: true },
         },
         {
           path: "cart",
@@ -63,15 +63,14 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
 
-  // ตรวจสอบว่าหน้าที่จะไปต้อง login หรือไม่
-  if (to.meta.requiresAuth && !auth.isLoggedIn) {
-    // ถ้าต้อง login แต่ยังไม่ได้ login ให้ไปหน้า login
+  // ใช้ token เช็คว่า login แล้วหรือยัง
+  const isAuthenticated = auth.isLoggedIn
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: 'login' })
-  } else if (to.name === 'login' && auth.isLoggedIn) {
-    // ถ้า login แล้วแต่พยายามเข้าหน้า login ให้ไปหน้า home
+  } else if (to.name === 'login' && isAuthenticated) {
     next({ name: 'home' })
   } else {
-    // กรณีอื่นๆ ให้ไปได้ตามปกติ
     next()
   }
 })

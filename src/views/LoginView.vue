@@ -40,7 +40,7 @@
               density="comfortable"
               class="mb-3"
             />
-            <v-btn :loading="isLoading" block color="primary" class="mt-2" @click="handleLogin">
+            <v-btn :loading="isLoading" block color="indigo-lighten-1" class="mt-2" @click="handleLogin">
               เข้าสู่ระบบ
             </v-btn>
           </v-form>
@@ -77,6 +77,7 @@ const handleLogin = async () => {
     }
   } catch (err) {
     alert("เข้าสู่ระบบไม่สำเร็จ");
+    console.log(err)
   } finally {
     isLoading.value = false;
   }

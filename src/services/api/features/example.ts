@@ -12,7 +12,7 @@ export default {
   },
   async getById<TRes>(id: string | number): Promise<TRes> {
     try {
-      const response = await instance.get<TRes>(`/product/${id}`)
+      const response = await instance.get<TRes>(`/products/${id}`)
       return response.data
     } catch (err) {
       handleApiError(err, 'getById')
@@ -72,11 +72,10 @@ export default {
   },
   async login<TBody, TRes>(body: TBody): Promise<TRes> {
   try {
-    const response = await instance.post<TRes>('https://fakestoreapi.com/auth/login', body)
+    const response = await instance.post<TRes>('/auth/login', body)
     return response.data
   } catch (err) {
     handleApiError(err, 'login')
-    throw err // เพื่อให้ caller รู้ว่าผิดพลาด
   }
 }
 

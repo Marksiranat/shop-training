@@ -1,23 +1,25 @@
 import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
+  const user_token = ref('') // token
 
-  // States
-  const _ssAcT = ref('')
-
-  // Actions (ชั่วคราว ไม่ปลอดภัย)
   function setup (token: string) {
-    _ssAcT.value = token
-  }
-  function clear () {
-    _ssAcT.value = ''
+    user_token.value = token
   }
 
-  return { _ssAcT, setup, clear }
+  function clear () {
+    user_token.value = ''
+  }
+
+  const isLoggedIn = computed(() => !!user_token.value)
+
+  return { user_token, setup, clear, isLoggedIn } // ✅ อย่าลืม return isLoggedIn
 }, {
   persist: {
-    key: 'ss_rulyBxww23',
+    key: 'user_access_token',
     storage: localStorage,
-    pick: ['_ssAcT']
+    pick: ['user_token']
   }
 })
+
