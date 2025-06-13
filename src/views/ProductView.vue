@@ -2,7 +2,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" md="10" lg="10">
-        <v-card v-if="product" class="pa-4">
+        <v-card v-if="product" class="pa-4 mt-8">
           <v-row>
             <!-- รูปภาพด้านซ้าย -->
             <v-col cols="12" md="6">

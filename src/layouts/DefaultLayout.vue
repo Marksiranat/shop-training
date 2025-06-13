@@ -18,14 +18,14 @@
       <div>
         <v-menu v-model="menu" location="bottom" offset="10">
           <template #activator="{ props }">
-            <v-btn v-bind="props" color="#ffff" class="d-flex mr-5">
+            <v-btn  v-bind="props" color="#ffff" class="d-flex mr-5">
               <v-icon size="40">mdi-account-circle</v-icon>
             </v-btn>
           </template>
 
           <v-list>
             <v-list-item >
-              <v-list-item-title>ออกจากระบบ</v-list-item-title>
+              <v-btn @click="logout()">ออกจากระบบ</v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -61,10 +61,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useCartStore } from "@/plugins/stores/cartStore";
+import { useAuthStore } from '@/plugins/stores/auth'
 
+const auth = useAuthStore()
+const router = useRouter()
 const cart = useCartStore();
 const menu = ref(false);
-const icons = ref(["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]);
+const icons = ref(["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]); 
+
+
+function logout() {
+  auth.clear() // เคลียร์ token
+  router.push('/login') // กลับไปหน้า login
+}
 </script>
 
 <style scoped>

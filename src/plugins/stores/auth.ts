@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isLoggedIn = computed(() => !!user_token.value)
 
-  return { user_token, setup, clear, isLoggedIn } // ✅ อย่าลืม return isLoggedIn
+  return { user_token, setup, clear, isLoggedIn } 
 }, {
   persist: {
     key: 'user_access_token',

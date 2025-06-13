@@ -8,7 +8,7 @@ const router = createRouter({
       path: "/about",
       name: "about",
       component: () => import("@/views/AboutView.vue"),
-      meta: { requiresAuth: false }, // เพิ่ม meta สำหรับหน้าที่ไม่ต้อง login
+      meta: { requiresAuth: true }, // เพิ่ม meta สำหรับหน้าที่ไม่ต้อง login
     },
     {
       path: "/404",
