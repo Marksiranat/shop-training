@@ -17,9 +17,13 @@ export const useCartStore = defineStore('cart', () => {
 
   function removeFromCart(productId: number) {
     cartItems.value = cartItems.value.filter(item => item.product.id !== productId)
-  }
+  } 
 
-  return { cartItems, addToCart, removeFromCart }
+    const cartCount = computed(() =>
+    cartItems.value.reduce((total, item) => total + item.quantity, 0)
+  )
+
+  return { cartItems, addToCart, removeFromCart , cartCount }
 }, {
   persist: true  // ✅ เก็บข้อมูลตะกร้าไว้ใน localStorage ด้วย
 })
