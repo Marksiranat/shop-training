@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-toolbar height="80" color="indigo-lighten-1" dark>
-      <v-toolbar-title class="text-h4"><v-icon>mdi mdi-alphabet-piqad</v-icon>M&P</v-toolbar-title>
+      <v-toolbar-title class="text-h4" ><v-icon>mdi mdi-alphabet-piqad</v-icon>M&P</v-toolbar-title>
 
       <v-spacer />
 

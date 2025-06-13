@@ -8,9 +8,10 @@
             height="300px"
             cover
           ></v-img>
-
+       
+  
           <v-card-title class="text-h5">
-            {{ product.name }}
+            {{ product.title }}
           </v-card-title>
 
           <v-card-subtitle class="text-subtitle-1">
@@ -19,6 +20,9 @@
 
           <v-card-text>
             {{ product.description }}
+          </v-card-text>
+          <v-card-text>
+            {{ product.category }}
           </v-card-text>
 
           <v-card-actions>
