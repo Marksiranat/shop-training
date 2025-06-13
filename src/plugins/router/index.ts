@@ -66,7 +66,7 @@ const router = createRouter({
     // เพิ่ม catch-all route สำหรับ 404
     {
       path: "/:pathMatch(.*)*",
-      redirect: "/home"
+      redirect: "/404"
     }
   ],
 });

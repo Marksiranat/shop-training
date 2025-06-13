@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <v-toolbar height="80" color="indigo-lighten-1" dark>
-      <v-toolbar-title class="text-h4" ><v-icon >mdi mdi-alphabet-piqad</v-icon>M&P</v-toolbar-title>
+    <router-link to="/home" class='text-white no-underline'><v-toolbar-title class="text-h4" ><v-icon >mdi mdi-alphabet-piqad</v-icon>M&P</v-toolbar-title></router-link>
+      
 
       <v-spacer />
 
@@ -51,4 +52,13 @@ import { useCartStore } from "@/plugins/stores/cartStore";
 const cart = useCartStore();
 
 const icons = ref(["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]);
-</script>
+</script> 
+
+
+<style scoped>
+.no-underline {
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+}
+</style>
