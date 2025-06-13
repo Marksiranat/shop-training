@@ -1,29 +1,28 @@
 <template>
   <div>
     <template v-if="mode === 'product'">
-    <v-row dense>
-    <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
-      <v-card class="mx-auto" max-width="400" hover @click="goToDetail(product.id)">
-        <v-img :src="product.image" height="200px" cover></v-img>
+      <v-row dense>
+        <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
+          <v-card class="mx-auto" max-width="400" hover @click="goToDetail(product.id)">
+            <v-img :src="product.image" height="200px" cover></v-img>
 
-        <v-card-title class="text-h6">{{ product.title }}</v-card-title>
+            <v-card-title class="text-h6">{{ product.title }}</v-card-title>
 
-        <v-card-subtitle class="text-subtitle-2 text-black text-h7">
-          ฿{{ product.price.toLocaleString() }}
-        </v-card-subtitle>
+            <v-card-subtitle class="text-subtitle-2 text-black text-h7">
+              ฿{{ product.price.toLocaleString() }}
+            </v-card-subtitle>
 
-        <v-card-text class="d-flex justify-end">
-          <v-btn color="indigo-lighten-1" @click="goToDetail(product.id)" class="rounded-pill">
-            รายละเอียด
-          </v-btn>
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
-     </template> 
+            <v-card-text class="d-flex justify-end">
+              <v-btn color="indigo-lighten-1" @click="goToDetail(product.id)" class="rounded-pill">
+                รายละเอียด
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
 
-
-     <template v-else-if="mode === 'cart'">
+    <template v-else-if="mode === 'cart'">
       <v-table class="elevation-1" dense>
         <thead>
           <tr>
@@ -32,7 +31,8 @@
             <th>ชื่อสินค้า</th>
             <th class="text-end">ราคา</th>
             <th class="text-center">จำนวน</th>
-            <th class="text-end">รวม</th>
+            <th class="text-center">รวม</th>
+            <th class="text-end"></th>
           </tr>
         </thead>
         <tbody>
@@ -40,32 +40,44 @@
             <td>{{ index + 1 }}</td>
             <td><v-img :src="item.image" width="50" height="50" cover /></td>
             <td>{{ item.title }}</td>
-            <td class="text-end">{{ item.price?.toFixed(2) ?? '0.00' }}
-</td>
+            <td class="text-end">{{ item.price?.toFixed(2) ?? "0.00" }}</td>
             <td class="text-center">{{ item.quantity ?? 1 }}</td>
-            <td class="text-end">฿{{ (item.price * (item.quantity ?? 1)).toFixed(2) }}</td>
+            <td class="text-center">฿{{ (item.price * (item.quantity ?? 1)).toFixed(2) }}</td>
+            <td class="text-center">
+              <v-icon
+                @click.stop="removeFromCart(item.id)"
+                :aria-label="'Remove item ' + item.title"
+              >
+                <v-icon size="20">mdi-delete</v-icon>
+              </v-icon>
+            </td>
           </tr>
         </tbody>
       </v-table>
     </template>
   </div>
-  
 </template>
 
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 import { type Product } from "@/models/product";
+import { useCartStore } from "@/plugins/stores/cartStore";
 
 const props = defineProps<{
   products: Product[];
-  mode: 'product' | 'cart'
+  mode: "product" | "cart";
 }>();
 
 const router = useRouter();
+const cart = useCartStore();
 
 function goToDetail(id: number) {
   router.push(`/product/${id}`);
+}
+
+function removeFromCart(productId: number) {
+  cart.removeFromCart(productId);
 }
 </script>
 

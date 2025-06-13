@@ -5,8 +5,16 @@
 
       <v-spacer />
 
-      <v-btn icon to="/cart" width="100px">
-        <v-icon style="font-size: 40px;">mdi-cart</v-icon>
+         <v-btn icon to="/cart" class="d-flex mr-5">
+        <v-badge
+          :content="cart.cartCount"
+          color="red"
+          overlap
+          v-if="cart.cartCount > 0"
+        >
+          <v-icon style="font-size: 40px;">mdi-cart</v-icon>
+        </v-badge>
+        <v-icon v-else style="font-size: 40px;">mdi-cart</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -38,6 +46,9 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useCartStore } from "@/plugins/stores/cartStore";
+
+const cart = useCartStore();
 
 const icons = ref(["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]);
 </script>
