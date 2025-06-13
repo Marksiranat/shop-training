@@ -1,25 +1,38 @@
 <template>
   <v-app>
     <v-toolbar height="80" color="indigo-lighten-1" dark>
-    <router-link to="/home" class='text-white no-underline'><v-toolbar-title class="text-h4" ><v-icon >mdi mdi-alphabet-piqad</v-icon>M&P</v-toolbar-title></router-link>
-      
+      <router-link to="/home" class="text-white no-underline"
+        ><v-toolbar-title class="text-h4"
+          ><v-icon>mdi mdi-alphabet-piqad</v-icon>M&P</v-toolbar-title
+        ></router-link
+      >
 
       <v-spacer />
 
-         <v-btn icon to="/cart" class="d-flex mr-5">
-        <v-badge
-          :content="cart.cartCount"
-          color="red"
-          overlap
-          v-if="cart.cartCount > 0"
-        >
-          <v-icon style="font-size: 40px;">mdi-cart</v-icon>
+      <v-btn icon to="/cart" class="d-flex mr-5">
+        <v-badge :content="cart.cartCount" color="red" overlap v-if="cart.cartCount > 0">
+          <v-icon style="font-size: 40px">mdi-cart</v-icon>
         </v-badge>
-        <v-icon v-else style="font-size: 40px;">mdi-cart</v-icon>
+        <v-icon v-else style="font-size: 40px">mdi-cart</v-icon>
       </v-btn>
+      <div>
+        <v-menu v-model="menu" location="bottom" offset="10">
+          <template #activator="{ props }">
+            <v-btn v-bind="props" color="#ffff" class="d-flex mr-5">
+              <v-icon size="40">mdi-account-circle</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item >
+              <v-list-item-title>ออกจากระบบ</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
     </v-toolbar>
 
-    <v-main style="background-color:#F9F9F9">
+    <v-main style="background-color: #f9f9f9">
       <router-view />
     </v-main>
 
@@ -50,10 +63,9 @@ import { ref } from "vue";
 import { useCartStore } from "@/plugins/stores/cartStore";
 
 const cart = useCartStore();
-
+const menu = ref(false);
 const icons = ref(["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]);
-</script> 
-
+</script>
 
 <style scoped>
 .no-underline {
