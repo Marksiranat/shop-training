@@ -11,6 +11,12 @@ const router = createRouter({
       meta: { requiresAuth: false }, // เพิ่ม meta สำหรับหน้าที่ไม่ต้อง login
     },
     {
+      path: "/404",
+      name: "404",
+      component: () => import("@/views/NotFoundView.vue"),
+      meta: { requiresAuth: false }, // เพิ่ม meta สำหรับหน้าที่ไม่ต้อง login
+    },
+    {
       path: "/ProductView",
       name: "productview",
       component: () => import("@/views/ProductView.vue"),

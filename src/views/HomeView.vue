@@ -1,15 +1,16 @@
 <template>
-  <v-container >
-    <v-carousel>
-      <v-carousel-item
-        v-for="(item, i) in carousels"
-        :key="i"
-        :src="item.src"
-        cover
-      ></v-carousel-item>
-    </v-carousel>
-
-    <div class="my-4 text-h2 text-sm-h4 text-xs-h5"><v-icon>mdi mdi-alphabet-piqad</v-icon>M&P Style</div>
+  <v-carousel>
+    <v-carousel-item
+      v-for="(item, i) in carousels"
+      :key="i"
+      :src="item.src"
+      cover
+    ></v-carousel-item>
+  </v-carousel>
+  <v-container>
+    <div class="my-4 text-h2 text-sm-h4 text-xs-h5">
+      <v-icon>mdi mdi-alphabet-piqad</v-icon>M&P Style
+    </div>
 
     <ProductsCards :products="products" mode="product" />
   </v-container>
